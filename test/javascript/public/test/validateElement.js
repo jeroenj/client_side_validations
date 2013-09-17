@@ -10,7 +10,10 @@ module('Validate Element', {
         'user[agree]':{"acceptance": [{"message": "must be accepted"}]},
         'user[email]':{"uniqueness":[{"message": "must be unique"}],"presence":[{"message": "must be present"}]},
         'user[info_attributes][eye_color]':{"presence":[{"message": "must be present"}]},
-        'user[phone_numbers_attributes][][number]':{"presence":[{"message": "must be present"}]}
+        'user[info_attributes][][hair_attributes][][color]':{"presence":[{"message": "must be present"}]},
+        'user[phone_numbers_attributes][][number]':{"presence":[{"message": "must be present"}]},
+        'user[phone_numbers_attributes][country_code][][code]':{"presence":[{"message": "must be present"}]},
+        'user[phone_numbers_attributes][deeply][nested][][attribute]':{"presence":[{"message": "must be present"}]}
       }
     }
 
@@ -81,6 +84,12 @@ module('Validate Element', {
           name: 'user[info_attributes][eye_color]',
           id: 'user_info_attributes_eye_color',
           type: 'text'
+        }))
+        .append($('<label for="user_info_attributes_200_hair_attributes_5154ce728c06dedad4000001_color">Deeply nested hair color</label>'))
+        .append($('<input />', {
+          name: 'user[info_attributes][200][hair_attributes][5154ce728c06dedad4000001][color]',
+          id: 'user_info_attributes_200_hair_attributes_5154ce728c06dedad4000001_color',
+          type: 'text'
         }));
 
     $('form#new_user').validate();
@@ -133,6 +142,30 @@ test('Validate nested attributes', function() {
 
   input = form.find('input#user_phone_numbers_attributes_new_1234_number');
   label = $('label[for="user_phone_numbers_attributes_new_1234_number"]');
+  input.trigger('focusout');
+  ok(input.parent().hasClass('field_with_errors'));
+  ok(label.parent().hasClass('field_with_errors'));
+
+  input = form.find('input#user_phone_numbers_attributes_country_code_0_code');
+  label = $('label[for="user_phone_numbers_attributes_country_code_0_code"]');
+  input.trigger('focusout');
+  ok(input.parent().hasClass('field_with_errors'));
+  ok(label.parent().hasClass('field_with_errors'));
+
+  input = form.find('input#user_phone_numbers_attributes_deeply_nested_0_attribute');
+  label = $('label[for="user_phone_numbers_attributes_deeply_nested_0_attribute"]');
+  input.trigger('focusout');
+  ok(input.parent().hasClass('field_with_errors'));
+  ok(label.parent().hasClass('field_with_errors'));
+
+  input = form.find('input#user_phone_numbers_attributes_deeply_nested_5154ce728c06dedad4000001_attribute');
+  label = $('label[for="user_phone_numbers_attributes_deeply_nested_5154ce728c06dedad4000001_attribute"]');
+  input.trigger('focusout');
+  ok(input.parent().hasClass('field_with_errors'));
+  ok(label.parent().hasClass('field_with_errors'));
+
+  input = form.find('input#user_info_attributes_200_hair_attributes_5154ce728c06dedad4000001_color');
+  label = $('label[for="user_info_attributes_200_hair_attributes_5154ce728c06dedad4000001_color"]');
   input.trigger('focusout');
   ok(input.parent().hasClass('field_with_errors'));
   ok(label.parent().hasClass('field_with_errors'));

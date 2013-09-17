@@ -44,7 +44,7 @@
   };
 
   validatorsFor = function(name, validators) {
-    name = name.replace(/_attributes\]\[\w+\]\[(\w+)\]/g, "_attributes][][$1]");
+    name = name.replace(/\[((?:new_)?\d+|[0-9a-f]{24})\]/g, "[]");
     return validators[name] || {};
   };
 
